@@ -1,0 +1,153 @@
+.TH HPGL2PS 1L "28 February 1997"
+.SH NAME
+hpgl2ps - A HPGL (Hewlett Packard Graphics Language) plot command filter 
+to PostScript
+.SH SYNOPSIS
+\fBhpgl2ps\fR
+[\fB-AB43mrv\fR]
+[\fB-f \fIdefault PostScript font name\fR]
+[\fB-l \fIline sizes\fR]
+[\fB-s \fIscale\fR]
+[\fB-x \fIoffset\fR]
+[\fB-y \fIoffset\fR]
+[\fB-h \fIrelative font height multiplier\fR]
+[\fB-w \fIrelative font width multiplier\fR]
+[\fIplotfile\fR]
+.SH DESCRIPTION
+This filter is used to convert Hewlett Packard Graphic Language (HP-GL)
+7550A plotter commands to PostScript. The HP-GL commands are a subset of the
+Roland plotter command set (RD-GL).
+.PP
+The default conditions for \fBhpgl2ps\fR are:
+.TP
+.B A.
+The plot translation is from an ANSI A (8.5 x 11inch) plot to ANSI A
+paper on the LaserWriter.  See below for other paper sizes.
+.TP
+.B B.
+Line thicknesses are in millimeters and are for lines (pens) 1 to 9:
+(0.0125, 0.025, 0.05, 0.1, 0.2, 0.4, 0.5 1.0 2.0)
+.TP
+.B C.
+The default font is Helvetica, 14 point on the Laserwriter.
+.TP
+.B D.
+The default font height and width multipliers are 1.2 and 3.6 respectively.
+.TP
+.B Note:
+If the plotfile is not specified then standard input is assumed.
+.SH ARGUMENTS
+.TP
+.B -A
+Draw for an ANSI A (11 x 8.5inch) plot. 
+.TP
+.B -B
+Draw for an ANSI B (17 x 11inch) plot. 
+.TP
+.B -4
+Draw for an A4 ISO (297mm x 210mm) plot. This will give an
+aproximate 1:1 translation to the LaserWriter.
+.TP
+.B -3
+Draw for an A3 ISO (420mm x 297mm) plot. 
+.TP
+\fB-h\fI relative font height multiplier\fR
+When the SR command exists in the HP-GL file,
+the size of characters is scaled to be a proportion of the paper dimensions.
+The HP7550 plotter character sizes are larger than the scaling suggests.
+The default value of the font height multiplier scales the characters in the
+postscript file to appear roughly the same width as the original.
+Setting to 1.0 reverts to the original scaling.
+.TP
+\fB-f \fIdefault PostScript font name\fR
+The PostScript printer will print any text/labels out with the Courier
+font. That can be changed to any of the standard font names
+in this list: 
+.sp
+.B
+Helvetica
+.sp
+plus any other fonts your postscript printer may be able to handle.
+There is no error checking to limit the font names to the standard
+Adobe base 35.	On the other hand, because we have left this
+open-ended for your maximum flexibility in this way, you will also pay
+a price: if you give the -f flag a font name which your printer does
+not recognize, then have fun with the results.
+.TP
+\fB-l \fIline sizes\fR
+This option allows the default line sizes to be replaced with different
+sizes starting from line (pen) one through nine. The new sizes (real or
+integer) are entered in a comma separated string (\fIline size\fR) and
+are in millimeters. Only the sizes entered in the string will be
+changed with respect to lines (pens) one to nine while nonentered line
+(pen) sizes will retain the default sizes.
+.sp
+In the following example only the first three sizes will be changed.
+.sp
+eg: hpgl2ps -l 0.4,0.3,1 file | lpr -Plaser1
+.TP
+.B -m
+Enable the manual feed on the LaserWriter (cutoff time 3 minutes).
+.TP
+.B -r
+Rotate plot(s) through 90 degrees. (The plot is made smaller)
+.TP
+\fB-s\fI scale\fR
+Scale the plot from 0.1 to 3 times its original size.
+.TP
+.B -v
+Print out version number and usage.
+.TP
+\fB-w\fI relative font width multiplier\fR
+When the SR command exists in the HP-GL file,
+the size of characters is scaled to be a proportion of the paper dimensions.
+The HP7550 plotter character sizes are larger than the scaling suggests.
+The default value of the font width multiplier scales the characters in the
+postscript file to appear roughly the same width as the original.
+Setting to 1.0 reverts to the original scaling.
+.TP
+\fB-x\fI offset\fR
+Place an X offset (in mm) in the plot.
+.TP
+\fB-y\fI offset\fR
+Place an Y offset (in mm) in the plot.
+.PP
+\fBNote:\fR Offsets are with respect to the 0, 0 (origin) of the HP-GL
+/ RD-GL plotting commands, thus if the minimum plotting coordinates are
+below either the X and/or Y zero axis then a positive offset is
+applied.  Similarly if the minimum plot coordinates are above the X
+and/or Y zero axis then a negative offset is applied.
+.SH FILES
+/usr/local/bin/hpgl2ps
+.SH AUTHOR
+Don McCormick
+.br
+CSIRO
+.br
+Division of Applied Physics
+.br
+PO 218, Lindfield, N.S.W., 2070
+.br
+Australia
+
+Scaling, Tick Marks, and other modifications by:
+.br
+Gordon Jacobs, University of California, Berkeley
+
+All HPGL commands have been added to the hpglcom.c program, though not
+all commands have been implemented.  The HPGL AA command has been
+implemented.  Parsing of HPGL commands has been enhanced.  Michael
+L. Brown, Madison, WI.
+
+Corrections and makefile for increased robustness and portability to
+at least Linux, Mips, Sun, and MS-DOS (32 bit) platforms.  Jeff Stern,
+UC Irvine, CA USA
+
+A couple of small bug fixes regarding font sizes, arcs etc. by Egil 
+Kvaleberg, egilk@sn.no. 
+.SH BUGS
+Some of the graphics commands are unimplemented and a warning will be
+displayed. If this command is vital then it must be written into the code.
+.PP
+No interactive command is supported.
+

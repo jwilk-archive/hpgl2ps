@@ -1,31 +1,39 @@
-#include    "defn.h"
+/* dxy2ps.c */
 
-#define USAGE "Usage: dxy2ps [-amr] [-l line sizes] [-s scale] [-x offset] [-y offset] [file]\n"
+#include <stdio.h>
+#include "dxycom.c"
 
-main(argc, argv)
-int     argc;
-char   *argv[];
+#include <getopt.h>
+
+#define USAGE "Usage: dxy2ps [-afmrv] [-f default_ps_font_name] [-l line sizes] [-s scale] [-x offset] [-y offset] [file]\nSee man page for more help.\n"
+
+void main(int argc, char *argv[])
 {
     extern int optind;
     extern char *optarg;
 
-    int     op;
-    int     opt;
-    int	    MANUAL_FEED = 0;			/* DEFAULT: No manual feed */
+    int     ch; 				/* GWKMOD */
+    int     op; 				/* GWKMOD */
+    /* GWK: char    op; */
+    int     MANUAL_FEED = 0;			/* DEFAULT: No manual feed */
 
     PaperSize = "A3";
     Mode = "DXY";
-    defcoords();			/* Set up plotter coordinates */
+    plotcoords();			/* Set up plotter coordinates */
 
-    plotinit();			/* Get other initialisations */
+    plotinit(); 		/* Get other initialisations */
 
-    while ((opt = getopt(argc, argv, "al:ms:x:y:r")) != EOF)
+    while ((ch = getopt(argc, argv, "af:l:ms:x:y:r")) != EOF)
     {
-	switch (opt)
+	switch (ch)
 	{
 	case 'a':		/* DXY ISO A4 297mm * 210mm */
 	    PaperSize = "A4";
-    	    defcoords();
+	    plotcoords();
+	    break;
+
+	case 'f':
+	    (void)sprintf(font, optarg);
 	    break;
 
 	case 'l':
@@ -37,7 +45,7 @@ char   *argv[];
 	    break;
 
 	case 'r':
-	    LANDSCAPE = FALSE;
+	    LANDSCAPE = 0;
 	    break;
 
 	case 's':
@@ -48,6 +56,10 @@ char   *argv[];
 	    if (SCALE > 3)
 		SCALE = 3;
 	    break;
+
+	case 'v':
+	    fprintf(stderr, "dxy2ps %s\n", VERSION);
+	    exit(0);
 
 	case 'x':
 	    xoffset = atof(optarg);
@@ -71,7 +83,7 @@ char   *argv[];
     }
     ps_macros();			/* Output PostScript Macros */
 
-    viewport(1);			/* Scale the viewport for the plot */
+    viewport(); 	/* Scale the viewport for the plot */
 
     printf("/%s %g Font\n", font, char_height);
 
@@ -88,4 +100,5 @@ char   *argv[];
 
     if (MANUAL_FEED)
 	manualfeed(0);
+    exit(0);
 }

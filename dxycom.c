@@ -1,12 +1,11 @@
-#include "defn.h"
+#include "hpglcom.c"
+/* dxycom.c */
 
-dxycom(dxyop)
-char    dxyop;
+void dxycom(char op)
 {
     int intval;
-    int hpglop;
 
-    switch (dxyop)
+    switch (op)
     {
     case 'H':			/* HOME */
     case 'h':
@@ -47,10 +46,10 @@ char    dxyop;
 	{
 	    int     p, q, r;
 
-	    p = rint(getval());
-	    q = rint(getval());
-	    r = rint(getval());
-	    fprintf(stderr, "Warning %c not implemented yet\n", dxyop);
+	    p = local_rint(getval());
+	    q = local_rint(getval());
+	    r = local_rint(getval());
+	    notimp((stderr, "Warning %c not implemented yet\n", op));
 	}
 	break;
 
@@ -65,7 +64,7 @@ char    dxyop;
 	    int n;
 
 	    if (SIGNED_NUMERIC)
-	        n = rint(getval());
+	        n = local_rint(getval());
 	    else
 		n = 3;
 	    char_height = (n + 1) * 0.8 * SCALE;
@@ -78,7 +77,7 @@ char    dxyop;
 
     case 'Q':			/* ALPHA ROTATE */
     case 'q':
-	intval = rint(getval());
+	intval = local_rint(getval());
 	switch (intval)
 	{
 	case 0:
@@ -141,12 +140,12 @@ char    dxyop;
 
     case '^':			/* CALL HP-GL / RD-GL COMMANDS */
 	end_draw();
-	if ((hpglop = getc(stream)) != EOF)
-	    hpglcom(hpglop);
+	if ((ch = getc(stream)) != EOF)
+	    hpglcom(ch);
 	break;
 
     default:
-	fprintf(stderr, "Warning: %c Unknown DXY command\n", dxyop);
+	fprintf(stderr, "Warning: %c Unknown DXY command\n", op);
 	break;
     }
 }
