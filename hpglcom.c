@@ -56,12 +56,14 @@ void hpglcom(char op1)
 	    if (PENDOWN)
 	    {
 		if (SIGNED_NUMERIC)
+		{
 		    if (SETDOT)
 			plotdot(MOVE);
 		    else if (PLOTABS)
 			arcps(ARCA);
 		    else
 			arcps(ARCR);
+		}
 	    }
 	    dumpit(1);
 	    break;
@@ -591,12 +593,14 @@ void hpglcom(char op1)
 	    dumpcomma();
 	    PLOTABS = 1;
 	    if (SIGNED_NUMERIC)
+	    {
 		if (SETDOT || SYMBOL)
 		    plotdot(MOVE);
 		else if (PENDOWN)
 		    plotps(DRAW);
 		else
 		    plotps(MOVE);
+	    }
 	    dumpit(1);
 	    break;
 
@@ -612,12 +616,14 @@ void hpglcom(char op1)
 	    dumpcomma();
 	    PENDOWN = 1;
 	    if (SIGNED_NUMERIC)
+	    {
 		if (SETDOT)
 		    plotdot(MOVE);
 		else if (PLOTABS)
 		    plotps(DRAW);
 		else 
 		    plotps(RDRAW);
+	    }
 	    dumpit(1);
 	    break;
 
@@ -638,12 +644,14 @@ void hpglcom(char op1)
 	    debugp((stderr,"%c%c",op1,op2));
 	    PLOTABS = 0;
 	    if (SIGNED_NUMERIC)
+	    {
 		if (SETDOT || SYMBOL)
 		    plotdot(RMOVE);
 		else if (PENDOWN)
 		    plotps(RDRAW);
 		else
 		    plotps(RMOVE);
+	    }
 	    dumpit(1);
 	    break;
 
@@ -664,12 +672,14 @@ void hpglcom(char op1)
 	    debugp((stderr,"%c%c",op1,op2));
 	    PENDOWN = 0;
 	    if (SIGNED_NUMERIC)
+	    {
 		if (SETDOT)
 		    plotdot(MOVE);
 		else if (PLOTABS)
 		    plotps(MOVE);
 		else
 		    plotps(RMOVE);
+	    }
 	    dumpit(1);
 	    break;
 
