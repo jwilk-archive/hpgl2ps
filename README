@@ -1,0 +1,51 @@
+There are two filters in this package that are based on the Roland
+plotter command set.
+
+1. DXY: A simple command set that is used with all DXY plotters
+
+2. RD-GL: This command set is a superset of the HP (Hewlett Packard)
+   graphics language however it is compatable with the 7475A command
+   set. In fact this version of the hpgl2ps filter has been rewritten
+   using the 7475A command hand book.
+
+Not all the commands of DXY or RD-GL (HPGL) are implemented (approx 95%
+are) and those commands that are not are skipped and a warning given.
+It is very easy to add to this filter if a particular unimplemented
+command is desired.
+
+If you wish to implement a command go to the relevant portion in the
+command switch "dxycom.c" or "hpglcom.c" and call an appropriate user
+written procedure.  (You will need a good knowledge of writing
+PostScript programs). Also don't forget to put the procedure name in
+the Makefile.
+
+The filters call the procedure "getopt" that is used to interpret
+command line options and arguments and is normally available on 4.3 bsd
+and Sys V Unix. For those sites running 4.1 or 4.2 it may be available
+as a local library and must be written into the Makefile.
+
+IF YOU DONT HAVE GETOPT YOU WILL HAVE REWRITE THE CODE THAT INTERPRETS
+COMMAND LINE OPTIONS AND ARGUMENTS.
+
+A procedure called "rint" is called in "dxycom.c" and "linetype.c"
+if you dont have this call in your maths library then the following
+C code will have to be written.
+
+Call the following rint.c (put "rint.o" in the Makefile).
+
+/*-----------Start rint.c------------------*/
+
+int rint(f) double f; 
+{return (int)(f + ((f>0) ? 0.5 : -0.5));}
+
+/*------------ End rint.c------------------*/
+
+NOTE 1: The PostScript macros are written into a C procedure to allow
+each filter to be a single stand alone program. These macros can easily
+be incorporated into other filter programs.
+
+NOTE 2: I have written some test procedures for the testing of each
+filter they are "test1.hpgl" for hpgl2ps and "test1.dxy" for dxy2ps.
+
+Don McCormick.
+

@@ -1,0 +1,83 @@
+.TH HPGL2PS (1L) "25 September 1987"
+.SH NAME
+hpgl2ps - A HP (Hewlett Packard) plot command filter to PostScript
+.SH SYNOPSIS
+\fBhpgl2ps\fR
+[\fB-amr\fR]
+[\fB-l \fIline sizes\fR]
+[\fB-s \fIscale\fR]
+[\fB-x \fIoffset\fR]
+[\fB-y \fIoffset\fR]
+[\fIplotfile\fR]
+.SH DESCRIPTION
+This filter is used to convert the Hewlett Packard Graphic Language (HP-GL)
+9873C plotter commands to PostScript. The HP-GL commands are a subset of the
+Roland plotter command set (RD-GL).
+.PP
+The default conditions for \fBhpgl2ps\fR are:
+.TP
+.B 1.
+The plot translation is from ISO A3 (420mm x 297mm) to ISO A4
+(297mm x 210mm) on the LaserWriter.
+.TP
+.B 2.
+Line thicknesses are in millimeters and are for lines (pens) 1 to 9:
+( 0.1, 0.2, 0.3, 0.4, 0.5, 0.7, 1.0, 1.25, 1.5 )
+.TP
+.B Note:
+If the plotfile is not specified then standard input is assumed.
+.SH ARGUMENTS
+.TP
+.B -a
+Draw on an A4 ISO (297mm x 210mm) sheet of paper. This will give an
+aproximate 1:1 translation to the LaserWriter.
+.TP
+\fB-l \fIline sizes\fR
+This option allows the default line sizes to be replaced with different
+sizes starting from line (pen) one through nine. The new sizes (real or
+integer) are entered in a comma seperated string (\fIline size\fR) and
+are in millimeters. Only the sizes entered in the string will be
+changed with respect to lines (pens) one to nine while nonentered line
+(pen) sizes will retain the default sizes.
+.sp
+In the following example only the first three sizes will be changed.
+.sp
+eg: hpgl2ps -l 0.4,0.3,1 file | lpr -Plaser1
+.TP
+.B -m
+Enable the manual feed on the LaserWriter (cutoff time 3 minutes).
+.TP
+.B -r
+Rotate plot(s) through 90 degrees. (The plot is made smaller)
+.TP
+\fB-s\fI scale\fR Scale the plot from 0.1 to 3 times its original
+size.
+.TP
+\fB-x\fI offset\fR Place an X offset (in mm) in the plot.
+.TP
+\fB-y\fI offset\fR Place an Y offset (in mm) in the plot.
+.PP
+\fBNote:\fR Offsets are with respect to the 0, 0 (origin) of the HP-GL
+/ RD-GL plotting commands, thus if the minimum plotting coordinates are
+below either the X and/or Y zero axis then a positive offset is
+applied.  Similarly if the minimum plot coordinates are above the X
+and/or Y zero axis then a negative offset is applied.
+.SH FILES
+/usr/local/bin/hpgl2ps
+.SH AUTHOR
+Don McCormick
+.br
+CSIRO
+.br
+Division of Applied Physics
+.br
+PO 218, Lindfield, N.S.W., 2070
+.br
+Australia
+.SH BUGS
+Some of the graphics commands are unimplemented and a warning will be
+displayed. If this command is vital then it must be written into the code.
+.PP
+No interactive command is suported.
+.PP
+If any bugs are found notify damc@natmlab or damc@nifty or root.
