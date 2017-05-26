@@ -12,7 +12,6 @@
 #
 # Modified by Egil Kvaleberg, Feb, 1997. Called v2.2.
 #
-# UNIX and DOS/DJGPP Makefile
 # SETUP:
 #
 # 1) Check that you have the 'ar' and 'install' commands on your
@@ -40,13 +39,11 @@ TESTFILES=	test1h.ps1 test2h.ps1 test3h.ps1 \
 		test1h.hpgl test2h.hpgl test3h.hpgl \
 		test1d.ps1 test1d.dxy
 HFILES= 	defn.h
-MISCFILES=	Makefile makefile.bor README
-DOSFILES=	readme.dos dosstuff/hpgl2ps.txt dosstuff/dxy2ps.txt \
-		dosstuff/hpgl2ps.ps dosstuff/dxy2ps.ps
+MISCFILES=	Makefile README
 
 DISTFILES=	${FILTER1.C} ${FILTER2.C} \
 		${MANFILTER} ${MANFILTER2} \
-		${HFILES} ${TESTFILES} ${DOSFILES} ${MISCFILES}
+		${HFILES} ${TESTFILES} ${MISCFILES}
 TESTOUTPUT=	test1h.ps test2h.ps test3h.ps test1d.ps 
 
 # 3) Make sure this is where you want the man pages to go.
@@ -101,23 +98,6 @@ FILTER1A=	dxy2ps
 FILTER2A=	hpgl2ps
 ACONVERT1=	cp $(FILTER1) $(FILTER1A); strip $(FILTER1A)
 ACONVERT2=	cp $(FILTER2) $(FILTER2A); strip $(FILTER2A)
-
-# For MS-DOS using djgpp compiler, activate these lines and deactivate
-# the other machines'. Leave SHELL= /bin/sh as it is above. The linker 
-# bombed when I had SHELL=c:\dos\command.com and I don't know what
-# blanking it out entirely would do, either.  Also note: There is no
-# 'make install': Instead, just copy the *.exe's and *.man's where you want. 
-# The 32-bit djgpp compiler (source and bins) can be ftp'd from either
-# omnigate.clarkson.edu or oak.oakland.edu.  In both places it's found
-# in the directory /pub/msdos/djgpp.  Or, you can send email to the
-# FSF (Free Software Foundation) at gnu@prep.ai.mit.edu for information
-# on obtaining djgpp on CDROM.
-# LOADLIBES=	-lm 
-# CFLAGS=	-O -Wall -DNOTIMP -ansi -pedantic
-# FILTER1A=	dxy2ps.exe
-# FILTER2A=	hpgl2ps.exe
-# ACONVERT1=	coff2exe $(FILTER1)
-# ACONVERT2=	coff2exe $(FILTER2)
 
 # 5) You're done.  Now just type 'make' and with any luck...
 
@@ -182,8 +162,8 @@ dist: distdir
 	rm -rf $(distdir)
 distdir: 
 	rm -rf $(distdir)
-	mkdir $(distdir) $(distdir)/dosstuff
-	chmod 777 $(distdir) $(distdir)/dosstuff
+	mkdir $(distdir)
+	chmod 777 $(distdir)
 	distdir=`cd $(distdir) && pwd` \
 	  && cd $(srcdir)
 	@for file in `cd $(srcdir) && echo $(DISTFILES)`; do \
@@ -191,22 +171,6 @@ distdir:
 	  || ln $$file $(distdir)/$$file 2> /dev/null \
 	  || cp -p $$file $(distdir)/$$file; \
 	done
-
-
-# To be used on Unix to create manuals for dos users and ps printers
-dosman: dosstuff/hpgl2ps.txt dosstuff/dxy2ps.txt dosstuff/hpgl2ps.ps dosstuff/dxy2ps.ps
-
-dosstuff/hpgl2ps.txt:	hpgl2ps.1
-	groff -Tascii -mandoc hpgl2ps.1 > dosstuff/hpgl2ps.txt
-
-dosstuff/dxy2ps.txt:	dxy2ps.1
-	groff -Tascii -mandoc dxy2ps.1 > dosstuff/dxy2ps.txt
-
-dosstuff/hpgl2ps.ps:	hpgl2ps.1
-	groff -Tps -mandoc hpgl2ps.1 > dosstuff/hpgl2ps.ps
-
-dosstuff/dxy2ps.ps:	dxy2ps.1
-	groff -Tps -mandoc dxy2ps.1 > dosstuff/dxy2ps.ps
 
 arcps.obj:	arcps.c
 	$(CC) -c $.
