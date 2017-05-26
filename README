@@ -64,12 +64,6 @@ command switch "dxycom.c" or "hpglcom.c" and call an appropriate user
 written procedure.  (You will need a good knowledge of writing
 PostScript programs)
 
-The filters use the the procedure "getopt" which is used to interpret
-command line options and arguments and is normally available on 4.3 bsd
-and Sys V Unix. For those sites running 4.1 or 4.2 it may be available
-as a local library and must be written into the Makefile. The Gnu getopt
-utility will also be suitable.
-
 NOTE 1: The method of writing text is not fully compatible with HPGL
 and will be changed at a later date.
 
