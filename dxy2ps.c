@@ -7,7 +7,7 @@
 
 #define USAGE "Usage: dxy2ps [-afmrv] [-f default_ps_font_name] [-l line sizes] [-s scale] [-x offset] [-y offset] [file]\nSee man page for more help.\n"
 
-void main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
     extern int optind;
     extern char *optarg;
