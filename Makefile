@@ -96,7 +96,7 @@ distdir=	$(PACKAGE)-$(VERSION)
 # and gcc 2.5.8. -jas. 
 
 LOADLIBES=	-lm 
-CFLAGS= 	-g -O -Wall -DNOTIMP -ansi -pedantic
+CFLAGS= 	-g -O -Wall -DNOTIMP
 FILTER1A=	dxy2ps
 FILTER2A=	hpgl2ps
 ACONVERT1=	cp $(FILTER1) $(FILTER1A); strip $(FILTER1A)
