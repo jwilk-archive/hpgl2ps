@@ -897,7 +897,7 @@ void hpglcom(char op1)
 		    tln = 0.0;
 	    }
 	    else
-		tlp = tlp = 0.005;   /* defaults */
+		tlp = tln = 0.005;   /* defaults */
 	    dumpit(1);
 	    break;
 
