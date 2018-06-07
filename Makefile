@@ -70,7 +70,7 @@ distdir=	$(PACKAGE)-$(VERSION)
 # For Sun using GNU, activate the following lines, and deactivate the
 # other machines'.
 
-# LOADLIBES=	-lieee -lm 
+# LDLIBS=	-lieee -lm 
 # CFLAGS=	-O -Wall -DNOTIMP -ansi -pedantic
 # FILTER1A=	dxy2ps
 # FILTER2A=	hpgl2ps
@@ -89,10 +89,10 @@ distdir=	$(PACKAGE)-$(VERSION)
 # compliance and compile without error, the -lieee was not needed.  A
 # phantom, I guess.  But one heck of an ugly one. :) Anyway, if you get
 # the error mentioned above and you're compiling on linux, try adding
-# the -lieee back into LOADLIBES.  For reference, I have libc 4.5.26,
+# the -lieee back into LDLIBS.  For reference, I have libc 4.5.26,
 # and gcc 2.5.8. -jas. 
 
-LOADLIBES=	-lm 
+LDLIBS=	-lm 
 CFLAGS= 	-g -O -Wall -DNOTIMP
 FILTER1A=	dxy2ps
 FILTER2A=	hpgl2ps
@@ -117,10 +117,10 @@ $(FILTER2A):	$(FILTER2)
 		$(ACONVERT2)
 
 $(FILTER1):	$(FILTER1.C)
-		$(CC) $(CDEFS) $(CFLAGS) $< -o $@ $(LOADLIBES)
+		$(CC) $(CDEFS) $(CFLAGS) $< -o $@ $(LDLIBS)
 
 $(FILTER2):	$(FILTER2.C)
-		$(CC) $(CDEFS) $(CFLAGS) $< -o $@ $(LOADLIBES)
+		$(CC) $(CDEFS) $(CFLAGS) $< -o $@ $(LDLIBS)
 
 
 test1d.ps: $(FILTER1A) test1d.dxy
